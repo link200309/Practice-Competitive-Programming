@@ -7,7 +7,7 @@ int main()
 {
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
-    
+
     int n, k;
     cin >> n >> k;
     vector<int> ve(n);
@@ -16,8 +16,10 @@ int main()
 
     sort(ve.begin(), ve.end());
 
-    int left = 0; int right = n-1, medio;
-    while(left <= right){
+    int left = 0, right = n-1, medio;
+
+
+    while(left <= right ){
         medio = left + (right - left) / 2;
 
         if(ve[medio] <= k){
@@ -25,9 +27,10 @@ int main()
         } else {
             right = medio - 1;
         }
-    }   
-    
+    }
+
     cout << medio;
+
 
     return 0;
 }
