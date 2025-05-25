@@ -1,38 +1,46 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+bool isValid(int media, int k, vector<int> &ve, int n){
+    long long operaciones = 0;
+
+    for(int i = n/2; i < n; i++){
+
+        if(ve[i] < media){
+            operaciones += media - ve[i];
+    
+            if(operaciones > k) return false;
+        }
+    }
+    return operaciones <= k;
+}
+
 int main()
 {
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
     
-    int n, k, kAux;
+    int n, k;
     cin >> n >> k;
-    kAux = k;
-    vector<int> a(n);
-        
-    for(int &x : a) cin >> x;
+    vector<int> ve(n);
 
-    sort(a.begin(), a.end());
+    for(int &x : ve) cin >> x;
 
-    int mediana = a[n / 2];
-    auto it = upper_bound(a.begin()+n/2, a.end(), mediana);
-    int dis = distance(a.begin()+n/2, it);
-    int lim = distance(a.begin(), it);
+    sort(ve.begin(), ve.end());
 
-    for(int i = n/2; i <= lim && kAux > 0; i++){
-        if(k/dis <= kAux){
-            a[i]+=(k/dis);
-            kAux -= (k/dis); 
+    long long left = 1, right = 2e9, media;
+
+    while(left <= right){
+        media = left + (right - left) / 2;
+
+        if(isValid(media, k, ve, n)){
+            left = media + 1;
         } else {
-            a[i]+= kAux;
-            kAux = 0;
+            right = media - 1;
         }
     }
 
-    sort(a.begin(), a.end());
-
-    cout << a[n / 2];
+    cout << right;
 
     return 0;
 }
