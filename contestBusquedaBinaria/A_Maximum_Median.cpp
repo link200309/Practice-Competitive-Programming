@@ -5,10 +5,8 @@ bool isValid(int media, int k, vector<int> &ve, int n){
     long long operaciones = 0;
 
     for(int i = n/2; i < n; i++){
-
         if(ve[i] < media){
             operaciones += media - ve[i];
-    
             if(operaciones > k) return false;
         }
     }
@@ -39,8 +37,6 @@ int main()
             right = media - 1;
         }
     }
-
     cout << right;
-
     return 0;
 }
