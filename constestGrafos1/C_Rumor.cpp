@@ -2,6 +2,8 @@
 #define ll long long
 using namespace std;
 
+//https://codeforces.com/problemset/problem/893/C
+
 vector<vector<ll>> graf;
 vector<bool> visited;
 vector<ll> c;
