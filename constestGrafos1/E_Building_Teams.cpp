@@ -2,6 +2,8 @@
 #define ll long long
 using namespace std;
 
+//https://vjudge.net/problem/CSES-1668
+
 vector<vector<ll>> gr;
 vector<int> c;
 
