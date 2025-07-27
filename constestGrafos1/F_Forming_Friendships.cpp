@@ -14,7 +14,6 @@ ll dfs(ll u){
     for(ll v : gr[u]){
         if(!visited[v]) suma += dfs(v) + 1;
     }   
-
     return suma;
 }
 
