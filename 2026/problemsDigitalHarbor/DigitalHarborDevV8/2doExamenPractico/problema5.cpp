@@ -3,6 +3,8 @@ using namespace std;
 #define ll long long
 #define endl '\n'
 
+
+
 void solve(){
     int N; cin >> N;
     int exp = 0, noob = 0;
