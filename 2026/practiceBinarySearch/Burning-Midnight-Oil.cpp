@@ -3,23 +3,33 @@
 #define endl '\n'
 using namespace std;
 
+bool check(int middle, int n, int k){
+    int currentCode=0;
+
+    for(int p=0; p < 1e9; p++){
+        currentCode += middle/pow(k, p);
+        
+        if(currentCode >= n) return true;
+        if(pow(k, p) > middle) return false;
+    }
+    return currentCode >= n;
+}
 
 void solve(){
-    int n, m; cin >> n >> m;
-    vector<int> a(n), b(m);
+    int n, k; cin >> n >> k;
 
-    for(int &x : a) cin >> x;
-    for(int &x : b) cin >> x;
+    int left=1, right=1e9, middle, res;
+    while(left <= right){
+        middle = left + (right-left)/2;
 
-    sort(a.begin(), a.end());
-
-    for(int i = 0; i < m; i++){
-        auto it = upper_bound(a.begin(), a.end(), b[i]);
-        int pos = it - a.begin();
-        
-        cout << pos << " ";
+        if(check(middle, n, k)){
+            res = middle;
+            right = middle-1;
+        } else {
+            left = middle+1;
+        }
     }
-    cout << endl;
+    cout << res << endl;
 }
 
 int main(){
