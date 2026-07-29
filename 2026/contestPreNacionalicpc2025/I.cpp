@@ -8,11 +8,9 @@ const ll INF = 1e18;
 using namespace std;
 
 bool isValid(int middle, vector<int> &dis){
-    for(int d : dis){
-        if(!(d > middle)){
-            return false;
-        }
-        middle = d - middle;
+    for(int d:dis){
+        if(middle>=d) return false;
+        middle=d-middle-1;
     }
     return true;
 }
@@ -20,43 +18,33 @@ bool isValid(int middle, vector<int> &dis){
 void solve(){
     int N; cin >> N;
     vector<int> dis(N-1);
+    vector<pair<int, int>> starts(N);
     
-    pair<int, int> cordAnt = {-1, -1};
-    pair<int, int> cordFirst = {-1, -1};
-    pair<int, int> cordSecond = {-1, -1};
-    
-    for(int i = 0; i < N; i++){
-        int x, y; cin >> x >> y;
+    int x, y; cin >> x >> y;
+    starts[0] = {x, y};
+    for(int i = 1; i < N; i++){
+        cin >> x >> y;
+        starts[i] = {x, y};
 
-        if(i == 0){
-            cordAnt = {x, y}; 
-            cordFirst = {x, y};           
+        if(x == starts[i-1].first){
+            dis[i-1] = abs(y - starts[i-1].second);
         } else {
-            if(i == 1) cordSecond = {x, y};
-
-            if(x == cordAnt.first){
-                dis[i-1] = y - cordAnt.second;
-            } else {
-                dis[i-1] = x - cordAnt.first;
-            }
-            cordAnt = {x, y};
+            dis[i-1] = abs(x - starts[i-1].first);
         }
     }
 
-    int left = cordFirst.first == cordSecond.first? cordFirst.second : cordFirst.first;
-    int right = cordFirst.first == cordSecond.first? cordSecond.second : cordSecond.first;
-    int middle;
-    while(left < right){
-        middle = left + (right - left)/2;
+    int left=1, right=dis[0]-1, middle, res = -1;
+    while(left <= right){
+        middle = left + (right - left)/2; 
 
         if(isValid(middle, dis)){
-            if(middle == left) break;
-            left = middle;
+            res = middle;
+            left = middle+1;
         } else {
-            right = middle;
+            right = middle-1;
         }
     }
-    cout << (middle == 0? -1 : middle)  << endl;
+    cout << res << endl;
 }
  
 int main(){
