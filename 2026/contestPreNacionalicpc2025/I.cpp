@@ -7,44 +7,40 @@
 const ll INF = 1e18;
 using namespace std;
 
-bool isValid(int middle, vector<int> &dis){
-    for(int d:dis){
-        if(middle>=d) return false;
-        middle=d-middle-1;
-    }
-    return true;
-}
-
 void solve(){
     int N; cin >> N;
     vector<int> dis(N-1);
-    vector<pair<int, int>> starts(N);
-    
-    int x, y; cin >> x >> y;
-    starts[0] = {x, y};
-    for(int i = 1; i < N; i++){
-        cin >> x >> y;
-        starts[i] = {x, y};
 
-        if(x == starts[i-1].first){
-            dis[i-1] = abs(y - starts[i-1].second);
+    int xAnt, yAnt; cin >> xAnt >> yAnt;
+    ll cEven = 0, cOdd = 0, smaller = 1e18, greater = 1;
+    for(int i = 2; i <= N; i++){
+        int x, y; cin >> x >> y;
+        ll dis = 0;
+        
+        if(y == yAnt) dis = abs(x - xAnt);
+        else dis = abs(y - yAnt);
+        
+        if(i%2 == 0){
+            cEven += dis;
+            cOdd -= dis;
+
+            if(cEven-1 < smaller){
+                smaller = cEven-1;
+            }
         } else {
-            dis[i-1] = abs(x - starts[i-1].first);
+            cEven -= dis;
+            cOdd += dis;
+
+            if(1-cOdd > greater){
+                greater = 1-cOdd;
+            }
         }
+
+        xAnt = x;
+        yAnt = y;
     }
 
-    int left=1, right=dis[0]-1, middle, res = -1;
-    while(left <= right){
-        middle = left + (right - left)/2; 
-
-        if(isValid(middle, dis)){
-            res = middle;
-            left = middle+1;
-        } else {
-            right = middle-1;
-        }
-    }
-    cout << res << endl;
+    cout << (greater > smaller? -1 : smaller) << endl;
 }
  
 int main(){
